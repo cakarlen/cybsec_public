@@ -1,0 +1,23 @@
+Yo, just for future reference, we are going to use the python virtual enviorment to keep things clean and easy.
+
+To start the db (database) update progress, we need to run a few commands and this is assuming we havent set the FLASK_APP variable yet.
+
+In the same directory as the run.py (or in some cases app.py) run the following command:
+    export FLASK_APP=run.py
+
+This is shouldnt need to be done more than once (aka during the first db setup)
+
+Then assuming this is a first setup, run:
+    flask db init
+        ^this adds a migrations folder to the current directory
+Then run these commands:
+    flask db migrate
+        As per the docs: "Alembic is currently unable to detect table name changes, column name changes, or anonymously named constraints."
+        So we will basically need to dump all the tables and restart if it falls under the above constraints.
+
+    flask db upgrade
+
+
+If we dont meet any of the constraints next time then all we need to do is just run the migrate and upgrade cmds 
+
+- Jared 8-9-19

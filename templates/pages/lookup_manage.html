@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="content-section">
+        <form method="POST" action="/lookup/manage" enctype="multipart/form-data">
+            <fieldset class="form-group">
+                <div class="form-group">
+                    <input type="file" name="file" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit">
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+
+    <!-- will need to display  -->
+    <table id="files_Table" class="display" style="width: 100%">
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Download</th>
+                <th>Date Modified</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+    
+    <script type="text/javascript" src="/static/js_stuff/lookup_display.js"></script>
+{% endblock content %}

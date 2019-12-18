@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h4><header class="center">This should work for AD and MC users</header></h4>
+    <br>
+
+    <div class="content-section">
+        <form method="POST" action="{{ url_for('ldap_lookup') }}">
+            {{ form.hidden_tag() }}
+
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Lookup User</legend>
+
+                <div class="form-group">
+                    {{ form.user_input.label(class="form-control-label") }}
+
+                    {% if form.user_input.errors %}
+                        {{ form.user_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.user_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.user_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.type_input.label(class="form-control-label") }}
+
+                    {% if form.type_input.errors %}
+                        {{ form.type_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.type_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.type_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+    
+
+<div class="content-section">
+
+    <table id="ldapTable" class="table table-striped table-bordered" style="width: 100%;">
+        <thead>
+            <th>LinkBlue</th>        
+            <th>Full Name</th>
+            <th>Company</th>
+            <th>Dept.</th>
+            <th>Position</th>
+            <th>Email</th>
+            <th>Bad Password Count</th>
+            <th>Last Password Set</th>
+            <th>Last Logon</th>
+            <th>Office</th>
+        </thead>
+    </table>
+
+
+    <table id="memberTable" class="table table-striped table-bordered" style="width: 100%;">
+        <tr><td>Member Of</td></tr>
+    </table>
+
+    <script>
+        var test = JSON.parse('{{output | tojson}}');
+        var debug = test;
+        var attr_table = ['cn', 'displayName', 'company', 'department', 'title', 'mail', 'badPwdCount', 'pwdLastSet', 'lastLogonTimestamp', 'physicalDeliveryOfficeName', 'memberOf']
+        
+        function loadResults(){
+            var data = JSON.parse('{{output | tojson}}');
+            $(document).ready(function(){
+                $('#ldapTable').DataTable({
+                    responsive: true,
+                    data: data,
+                    
+                    "columns": [
+                        {"data": "cn"},
+                        {"data": "displayName"},
+                        {"data": "company"},
+                        {"data": "department"},
+                        {"data": "title"},
+                        {"data": "mail"},
+                        {"data": "badPwdCount"},
+                        {"data": "pwdLastSet"},
+                        {"data": "lastLogonTimestamp"},
+                        {"data": "physicalDeliveryOfficeName"}
+                    ]
+                });
+            });
+
+            //create the table listing the member dets
+            var table = document.getElementById("memberTable");
+            //var rowCnt = data[0]['memberOf'].length;
+            
+            var array_check = Array.isArray(data[0]['memberOf']);
+            
+            if(!array_check){
+                var row = table.insertRow(1);
+                row.insertCell(0).innerHTML = data[0]['memberOf'];
+            }
+            else{
+                var keys = Object.keys(data[0]['memberOf']);
+
+                var len = keys.length;
+                var i;
+
+
+                for(i = 0; i < len; i++){
+                    var row = table.insertRow(i+1);
+                    row.insertCell(0).innerHTML = data[0]['memberOf'][i];
+                }
+
+            }
+            
+            
+        }
+
+        //check if data has been passed in
+        var data = JSON.parse('{{output | tojson}}');
+        if(!jQuery.isEmptyObject(data)){
+            $(window).on("load", loadResults);
+        }
+    </script>
+</div>
+
+{% endblock content %}

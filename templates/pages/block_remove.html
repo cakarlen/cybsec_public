@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <h5>If you don't know what you're doing here, click <a href="{{ url_for("help_user") }}">here!</a></h5>
+    <br>
+
+    <form action="{{ url_for('block_submit_remove') }}" method="POST">
+        <div class="form-group">
+            <label for="ip_address">*IP address:</label>
+            <input type="text" class="form-control" name="ip_address" id="ip_address" required>
+        </div>
+
+        <div class="form-group">
+            <label for="mac">MAC address:</label>
+            <input type="text" class="form-control" name="mac" id="mac">
+        </div>
+
+        <div class="form-group">
+            <label for="comment">*Evidence:</label>
+            <textarea class="form-control" rows="5" name="evidence" id="evidence" placeholder="Copy entire student response here" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="wlc_pass">WLC Password:</label>
+            <input type="password" class="form-control" name="wlc_pass" id="wlc_pass" placeholder="Leave blank if no MAC">
+        </div>
+
+        <button type="submit" value="Submit" class="btn-default">Submit</button>
+        <br><br><br>
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for dict_item in output %}
+        {% for key, value in dict_item.items() %}
+
+            {% for err_key, err_val in value.items() %}
+                {% if "error" in err_key %}
+                    {% if err_val %}
+                        <h3>Please check listed errors and correct accordingly:</h3>
+{#                        <small><em>Block has not been submitted to controllers</em></small>#}
+                        <br><br>
+                        {% for err in err_val %}
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <td>
+                                        <p class="article-content">{{ err }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        {% endfor %}
+                    {% else %}
+                        {% for i in check %}
+                            {% for k, v in i.items() %}
+                                <h3>This MAC address has been reported {{ v }} times.</h3>
+                                <br><br>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% for dev_key, dev_value in value.items() %}
+                {% if "device" in dev_key %}
+                    {% for len in range(dev_value | length) %}
+                        {% if "Shorten" in dev_value[len][0] %}
+                            <h3>{{ dev_value[len][0] }}</h3>
+                            <br<br>
+                            {{ dev_value[len][1] }}
+                        {% else %}
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <td>
+                                        <h4>{{ dev_value[len][0] }}</h4>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="article-content">{{ dev_value[len][1] }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+        {% endfor %}
+    {% endfor %}
+
+{% endblock content %}

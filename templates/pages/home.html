@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+        <style>
+            .sidebar_padding{
+                height: 100%;
+                border: 0;
+                border-left: 2px solid rgb(0, 51, 160);
+                margin: 0em 0;
+                padding: 25px;
+                }
+            .datatable_padding{
+                padding-right: 10px;
+            }
+            .sidebar_padding_extra{
+                padding-top: 25px;
+            }
+        </style>
+        <div class="row">
+            <div id="mainbar" role="main" class="datatable_padding" style="width: 80%;">
+                <h4 id="h-dmcas">DMCAs</h4>
+                <table id="homeTable" class="table table-striped table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Edit</th>
+                            <th>Entry ID</th>
+                            <th>Status</th>
+                            <th>Case ID</th>
+                            <th>Offender IP</th>
+                            <th>Date Posted</th>
+                            <th>User</th>
+                            <th>Classification</th>
+                            <th>MAC Address</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>Edit</th>
+                            <th>Entry ID</th>
+                            <th>Status</th>
+                            <th>Case ID</th>
+                            <th>Offender IP</th>
+                            <th>Date Posted</th>
+                            <th>User</th>
+                            <th>Classification</th>
+                            <th>MAC Address</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <script type="text/javascript" src="static/js_stuff/home.js"></script>
+            </div>
+
+            {% if current_user.role != "USER" %}
+                <div class="sidebar_padding" id="sidebar" role="complementary" aria-label="sidebar" style="width: 20%;">
+                    <div class="module sidebar-links">
+                        <h4 id="h-links">Links</h4>
+                        <div id="links">
+                        </div>
+                    </div>
+                    <div class="module sidebar-foods sidebar_padding_extra">
+                        <h4 id="h-foods">Random Restaurant</h4>
+                        <div id="foods"></div>
+                        <button>Random Selection</button>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- dynamic modal skeleton -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit/Remove</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+    {% else %}
+        <h3 class="center"><em>Welcome to University of Kentucky Cybersecurity, Data Privacy, and Policy</em></h3>
+        <br>
+        <p class="center">You are not logged in currently. Please <a href="{{ url_for("login") }}">login</a> to access the website.</p>
+        <b><p class="center">This website is very much a work in progress and is subject to change.</p></b>
+
+        <footer>
+            <small>Note: This website authenticates with AD. You <em>MUST</em> login using AD credentials.</small>
+        </footer>
+    {% endif %}
+
+{% endblock content %}

@@ -1,0 +1,154 @@
+body {
+  background: #fafafa;
+  color: #2c2a29;
+  margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #0033a0;
+}
+
+ul {
+  margin: 0;
+}
+
+td {
+  white-space: nowrap;
+}
+
+body  {
+    background-color: ghostwhite;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #0033a0;
+  color: white;
+  text-align: center;
+}
+
+img {
+  padding-right: 20px;
+}
+
+.center {
+  text-align: center;
+}
+
+.quote {
+  position: fixed;
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  color: black;
+}
+
+.evidence {
+  height: 125px;
+  overflow: scroll;
+  white-space: pre-line;
+}
+
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.bg-blue{
+  background-color: #0033a0;
+  /*background-color: orangered;*/
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+  font-size: larger;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+.btn-link {
+  color: #cbd5db;
+  background-color: #0033a0;
+  border-color: #0033a0;
+}
+
+.btn-link:hover {
+  color: #ffffff;
+}
+
+
+.other-content {
+  position: absolute;
+  visibility: visible;
+  left: 65%;
+  top: 70%;
+}
+
+.navbar .navbar-brand-icon img {
+  height: 50px;
+}

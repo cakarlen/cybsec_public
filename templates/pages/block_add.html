@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+    <h5>If you don't know what you're doing here, click <a href="{{ url_for("help_user") }}">here!</a></h5>
+    <br>
+
+    <form class="form-horizontal" action="{{ url_for("block_submit_add") }}" method="POST">
+
+        <div class="form-group">
+            <label class="control-label" for="mac">MAC address:</label>
+            <input type="text" class="form-control" name="mac" id="mac">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="offender_ip">*Offender IP address:</label>
+            <input type="text" class="form-control" placeholder="" pattern="^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2
+            [0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="off_ip" id="off_ip" required>
+        </div>
+
+        <div class="form-group">
+            <label for="classification">*Classification:</label>
+            <select class="form-control" id="classification" name="classification">
+                <option>GENERAL</option>
+                <option>SPAMMING</option>
+                <option selected>DMCA</option>
+                <option>VIRUS</option>
+                <option>SCANNING</option>
+                <option>ROGUE</option>
+                <option>TROJAN</option>
+                <option>SSH</option>
+                <option>BADLOGINS</option>
+                <option>WEBVULN</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="case_id">*Case ID:</label>
+            <input type="text" class="form-control" name="case_id" id="case_id" required>
+        </div>
+
+        <div class="form-group">
+            <label for="comment">*Evidence:</label>
+            <textarea class="form-control" rows="5" name="evidence" id="evidence" placeholder="Copy entire DMCA email here" required></textarea>
+        </div>
+
+        <button type="submit" value="Submit" class="btn-default">Submit</button>
+        <br><br><br>
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div>
+        {% for item in output %}
+            {% for key, value in item.items() %}
+                {% if 'msg' in key %}
+                    <h1 class="row">Results Message</h1>
+                    <br>
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <td>Message</td>
+                        </tr>
+                        <tr>
+                            <td><p>{{ value }}</p></td>
+                        </tr>
+                    </table>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+
+    <!-- Display the form  -->
+    <div class="content-section">
+
+        <form method="POST" action="{{ url_for('dmca_block') }}">
+            {{ form.hidden_tag() }}
+
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Test Block</legend>
+
+                <div class="form-group">
+                    {{ form.mac_input.label(class="form-control-label") }}
+
+                    {% if form.mac_input.errors %}
+                        {{ form.mac_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.mac_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.mac_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.ip_input.label(class="form-control-label") }}
+
+                    {% if form.ip_input.errors %}
+                        {{ form.ip_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.ip_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.ip_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.classification.label(class="form-control-label") }}
+
+                    {% if form.classification.errors %}
+                        {{ form.classification(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.classification.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.classification(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.caseid_input.label(class="form-control-label") }}
+
+                    {% if form.caseid_input.errors %}
+                        {{ form.caseid_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.caseid_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.caseid_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.evidence_input.label(class="form-control-label") }}
+
+                    {% if form.evidence_input.errors %}
+                        {{ form.evidence_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.evidence_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.evidence_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.wlc_desc_input.label(class="form-control-label") }}
+
+                    {% if form.wlc_desc_input.errors %}
+                        {{ form.wlc_desc_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.wlc_desc_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.wlc_desc_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.wlc_pass_input.label(class="form-control-label") }}
+
+                    {% if form.wlc_pass_input.errors %}
+                        {{ form.wlc_pass_input(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.wlc_pass_input.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.wlc_pass_input(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

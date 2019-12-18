@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Add a restaurant</legend>
+
+                <div class="form-group">
+                    {{ form.restaurant.label(class="form-control-label") }}
+
+                    {% if form.restaurant.errors %}
+                        {{ form.restaurant(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.restaurant.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.restaurant(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                </div>
+
+                <div class="form-group">
+                    {{ form.food_type.label(class="form-control-label") }}
+
+                    {% if form.food_type.errors %}
+                        {{ form.food_type(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.food_type.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.food_type(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                </div>
+
+            </fieldset>
+
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+
+        </form>
+    </div>
+
+    <!--Testing js exe-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <table id="testTable1" class="table  table-sm" style="width: 100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cuisine</th>
+                <th>Restaurant</th>
+                <th>Added by</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+        function loadTable(){
+            $(document).ready(function(){
+                $('#testTable1').DataTable({
+                    "ajax": {
+                        "url": "/setup/food",
+                        "dataType": "json",
+                        "dataSrc": "data",
+                        "contentType": "application/json"
+                    },
+                    "columnDefs": [
+                       {"visible": false, "targets": 0}    //determines what columns to hide
+                    ],
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "food_type"},
+                        {"data": "restaurant"},
+                        {"data": "username"},
+                        {"data": "remove",
+                           "fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {   //not sure what nTd is and could find much but it works...
+                               $(nTd).html("<a href='/food/delete/"+oData.id+"'>Remove</a>");
+                           }
+                        }
+                    ]
+                });
+        });
+
+        }
+        $(window).on("load", loadTable);
+    </script>
+{% endblock content %}

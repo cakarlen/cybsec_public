@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container-fluid d-flex flex-column flex-grow-1 vh-75 overflow-hidden" style="height: 100%;">
+        <div class="row flex-grow-1 overflow-hidden">
+            <div class="col-2 mh-100 overflow-auto py-2">
+
+                <a class="mr-2" href="#">{{ post.user.username }}</a>
+                <small class="text-muted">{{ post.date_posted }}</small>
+
+                <h2><a class="article-title">{{ post.action }}</a></h2>
+
+                <ul class="nav flex-column rounded">
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary btn-sm m-1" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    
+                    {% if ( "ADMIN" in current_user.role) or ("SUPERUSER" in current_user.role ) %}
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                        </li>
+                        <li class="nav-item">
+                            {% if post.action == "BLOCKED" %}
+                                <button type="button" class="btn btn-outline-success btn-sm m-1" data-toggle="modal" data-target="#unblockModal">Unblock</button>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if post.action == "PENDING" %}
+                                <button type="button" class="btn btn-outline-success btn-sm m-1" data-toggle="modal" data-target="#sendModal">Send</button>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col mh-100 overflow-auto py-2 content-section">
+
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <td>
+                            Classification
+                        </td>
+
+                        <td>
+                            Case ID
+                        </td>
+
+                        <td>
+                            Offender IP
+                        </td>
+
+                        <td>
+                            Offender MAC
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p class="article-content">{{ post.classification }}</p>
+                        </td>
+
+                        <td>
+                            <p class="article-content">{{ post.case_id }}</p>
+                        </td>
+
+                        <td>
+                            <p class="article-content">{{ post.offender_ip }}</p>
+                        </td>
+
+                        <td>
+                            <p class="article-content">{{ post.offender_mac }}</p>
+                        </td>
+                    </tr>
+                </table>
+                <h3>Evidence</h3>
+                <textarea disabled rows="15" class="form-control z-depth-1">{{ post.evidence }}</textarea>
+
+                <div class="media py-3">
+                    <div class="media-body">
+                        <h3>Comments</h3>
+                        <textarea disabled rows="10" class="form-control z-depth-1">{{ post.comments }}</textarea>
+                        <div class="media mt-3 shadow-textarea">
+                            <div class="media-body">
+                                <form class="form-horizontal" action="" method="POST">
+                                    <div class="form-group">
+                                        <textarea class="form-control z-depth-1" id="user_comment" name="user_comment" rows="5" placeholder="Write your comment..."></textarea>
+                                    </div>
+                                    <button type="submit" onClick="return confSubmit(this.form);" value="Submit" class="btn btn-outline-info">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Entry?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="unblockModal" tabindex="-1" role="dialog" aria-labelledby="unblockModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unblockModalLabel">Unblock?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for("block_submit_remove_id", post_id=post.id) }}" method="POST">
+                        <div class="form-group">
+                            <label for="comment">Evidence:</label>
+                            <textarea class="form-control" rows="5" name="evidence" id="evidence" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="wlc_pass">WLC Password:</label>
+                            <input type="password" class="form-control" name="wlc_pass" id="wlc_pass">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                <input class="btn btn-danger" type="submit" value="Yes">
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="sendModal" tabindex="-1" role="dialog" aria-labelledby="sendModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendModalLabel">Send information to block?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('block_submit_confirm', post_id=post.id) }}" method="POST">
+                        <div class="form-group">
+                            <label for="wlc_pass">WLC Password:</label>
+                            <input type="password" class="form-control" name="wlc_pass" id="wlc_pass">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input class="btn btn-danger" type="submit" value="Confirm">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

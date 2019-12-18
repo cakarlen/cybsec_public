@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="content-section">
+    <h3>Welcome to the help page</h3>
+    <small>This page will be updated as more topics are brought up to provide assistance</small>
+    <br><br><br>
+
+    <h5>Known IP address ranges</h5>
+    <ol>
+        <li>10.20.X.X - 10.21.X.X</li>
+            <ol>
+                <li>Healthcare guest wireless</li>
+            </ol>
+        <li>10.31.X.X</li>
+            <ol>
+                <li>Dorms IP address space</li>
+            </ol>
+        <li>10.46.X.X</li>
+            <ol>
+                <li>UK campus guest wireless</li>
+            </ol>
+        <li>10.47.X.X</li>
+            <ol>
+                <li>UK campus eduroam wireless</li>
+            </ol>
+        <li>10.163.X.X - 10.164.X.X</li>
+            <ol>
+                <li>LAN IP addresses</li>
+            </ol>
+        <li>128.163.X.X</li>
+            <ol>
+                <li>UK public IP address space</li>
+            </ol>
+        <li>172.19.X.X – 172.24.X.X</li>
+            <ol>
+                <li>Typically Healthcare or on-campus LAN servers</li>
+            </ol>
+        <li>172.31.X.X</li>
+            <ol>
+                <li>VPN IP address space</li>
+            </ol>
+    </ol>
+
+    <br>
+    <h5>DMCA | Add</h5>
+    <p>Adding an IP/MAC to the DMCA database is extremely easy. Please follow these steps to alleviate your headache:</p>
+    <ol>
+        <li>Retrieve the <em>public</em> IP address listed within the DMCA complaint and take note of the highlighted fields.<br>Example:<br><pre>    - ------------- Infringement Details ----------------------------------
+    Title:        Joker
+    Timestamp:    <em style="color: red;">2019-10-21T04:12:48Z</em>
+    IP Address:   <em style="color: red;">128.163.238.122</em>
+    Port:         <em style="color: red;">29776</em>
+    Type:         BitTorrent
+    Torrent Hash: a5e8f45b7108de088d7ccc196db425aec5e7c19b
+    Filename:     Joker 2019 CAM XviD - TWEAKED AUDIO - READNFO - INFERNO[EtMovies]
+    Filesize:     1277 MB
+    - ---------------------------------------------------------------------
+</pre></li>
+        <li><h3>If an IP address has already been blocked AND is torrenting the same title, do not send a request to block again</h3></li>
+        <li>Take note of the timestamp also listed within the email</li>
+        <li>With this information, navigate into Splunk and go to <a href="https://uky.splunkcloud.com/en-US/app/ITS-security/dmca_wip">DMCA & VPN ID</a></li>
+        <li>Change the timestamp to the <strong>day</strong> of the infringement<br><small>Note: The timestamp in the email will be listed in UTC. Translate accordingly.</small></li>
+        <li>Scroll down to the widget: <em>Search by Translated IP and Port on Palo Alto</em></li>
+        <li>Copy the public IP address from the email into the <em>Outside NAT</em> space and hit enter</li>
+        <br>
+        <li>Wait for results to populate and filter by the <em>src</em> header within the table</li>
+            <ol>
+                <li>If only one IP is listed, great. Go to the next step</li>
+                <li>If not, take the port number from the email and paste into the <em>Port</em> space</li>
+                    <ol>
+                        <li>If one IP is listed in this search, look at the timestamp and verify it matches (within reason) with the timestamp in the DMCA complaint</li>
+                        <li>If more than one IP is listed still, mark the complaint as inconclusive and close the ticket. You're done.</li>
+                    </ol>
+            </ol>
+        <li>This is where it can get tricky. Follow these steps:</li>
+            <ol>
+                <li>If the IP address begins with <strong>10.20, 10.21, 10.45, 10.46, or 10.47</strong>, you can retrieve the MAC address</li>
+                <li>If the IP address begins with <strong>10.31, 10.163, 10.164, 172.16-172.25, 172.31</strong>, you can <em>NOT</em> retrieve the MAC address</li>
+            </ol>
+        <br>
+        <li>If you <em>CAN</em> get the MAC, scroll up to the widget: <em>List of MAC addresses</em></li>
+            <ol>
+                <li>Copy the <em>internal</em> address from the <em>src</em> header in the table into the <em>Client IP</em> space</li>
+                <li>Filter the MAC addresses listed to ensure only <em>ONE</em> unique MAC is listed within the time period</li>
+                    <ol>
+                        <li>If one MAC is listed, you now know all the required information to proceed with the block. You're done.</li>
+                        <li>If not, cater the search time period in Splunk <em>closer to the timestamp listed in the email</em></li>
+                    </ol>
+                <li>After this step, you now know all the required information to proceed with the block. You're done.</li>
+            </ol>
+        <li>If you <em>CAN'T</em> get the MAC, enter in all the fields on the add page <em>EXCEPT</em> MAC address and WLC description/password and tell someone on the team. You're done.</li>
+    </ol>
+
+
+    <br>
+    <h5>DMCA | Remove</h5>
+    <p>This process is so easy a caveman can do it.</p>
+    <ol>
+        <li>Search for the IP/MAC address in the database</li>
+        <li>Click on the status and click unblock</li>
+            <ol>
+                <li>Copy evidence from user's email to evidence field</li>
+                <li>Enter WLC password for good measure</li>
+                <li>You're done</li>
+            </ol>
+    <em>OR</em>
+        <li>Copy IP and/or MAC address and use an inputs for the removal page</li>
+            <ol>
+                <li>Copy evidence from user's email to <em>cybersecurity@uky.edu</em> into evidence field</li>
+                <li>Enter WLC password for good measure and Cybsec will take care of the rest. You're done.</li>
+            </ol>
+    </ol>
+
+
+    <br>
+    <h5>Pastebin</h5>
+    <p>This process is completely automated. These are the only manual steps:</p>
+    <ol>
+        <li>Navigate to Pastebin alert</li>
+            <ol>
+                <li>If deleted, go <a href="http://drive.google.com/drive/folders/1i-Ns8ALZhXz2XV8u7iWvEITU5vquvb-o?usp=sharing">here</a> to view deleted pastes (thank you Jared)</li>
+                <small>Match pastebin.com/<strong>1b8egqBe</strong> with the filenames in that folder</small>
+            </ol>
+        <li>Copy the <em>entire</em> text in the paste</li>
+        <li>Paste the text in Pastebin text box and submit</li>
+            <ol>
+                <li>Cybsec will match the lines of text that has <em>uky.edu</em> in them</li>
+            </ol>
+        <br>
+        <li>Click on compromised user and read the small text excerpt in the report</li>
+        <li>If the paste included any mention of Spotify/Hulu/Netflix, add something like this in <em>Additional email information</em>:</li>
+            <ol>
+                <li>Please alert the user their Spotify account may also be compromised</li>
+            </ol>
+        <li>Hit send and you're done</li>
+        <small>Note: Don't remove the pastebin entries in the database as we want to keep track of them</small>
+    </ol>
+
+    <br>
+    <small>End of document</small>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">User: {{ output.comp_user }}<br>{{ output.data }}<br><br>
+                    <small class="small">If data is the same as the user and no password is associated with data, the user's password has not been exposed</small>
+                </legend>
+
+                <div class="form-group">
+                    {{ form.text.label(class="form-control-label") }}
+
+                    {% if form.text.errors %}
+                        {{ form.text(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.text.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.text(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                </div>
+
+            </fieldset>
+
+            <div class="form-group">
+                {% if output.status == "SENT" %}
+                    {{ form.submit(class="btn btn-outline-info", disabled=True) }}
+                {% else %}
+                    {{ form.submit(class="btn btn-outline-info") }}
+                {% endif %}
+            </div>
+
+        </form>
+    </div>
+{% endblock content %}

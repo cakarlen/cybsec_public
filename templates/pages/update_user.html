@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+    <div class="content-section">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+        <table id="UsersPostsTable" class="display" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+        <script>
+            function loadTable(){
+                $(document).ready(function(){
+                    $('#UsersPostsTable').DataTable({
+                        "ajax": {
+                            "url": "/setup/update_users",
+                            "dataType": "json",
+                            "dataSrc": "data",
+                            "contentType": "application/json"
+                        },
+                        "columns": [
+                            {"data": "id"},
+                            {"data": "name"},
+                            {"data": "username"},
+                            {"data": "role",
+                                "fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {   //not sure what nTd is and could find much but it works...
+                                    $(nTd).html("<a href='/update/"+oData.id+"'>"+oData.role+"</a>");
+                                }
+                            }
+                        ]
+                    });
+            });
+
+            }
+            $(window).on("load", loadTable);
+        </script>
+    {% endif %}
+{% endblock content %}

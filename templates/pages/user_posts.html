@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+        <!--Testing js exe-->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+        <table id="UsersPostsTable" class="display" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Classification</th>
+                    <th>Offender MAC</th>
+                </tr>
+            </thead>
+        </table>
+
+        <script>
+            function loadTable(){
+                $(document).ready(function(){
+                    $('#UsersPostsTable').DataTable({
+                        "ajax": {
+                            "url": "/setup/user_posts/{{ user }}",
+                            "dataType": "json",
+                            "dataSrc": "data",
+                            "contentType": "application/json"
+                        },
+                        "columns": [
+                            {"data": "date_posted"},
+                            {"data": "username",
+                                "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){   //not sure what nTd is and could find much but it works...
+                                    $(nTd).html("<a href='/user/"+oData.username+"'>"+oData.username+"</a>");
+                                }
+                            },
+                            {"data": "action"},
+                            {"data": "classification"},
+                            {"data": "offender_mac"}
+                        ]
+                    });
+            });
+
+            }
+            $(window).on("load", loadTable);
+        </script>
+    {% endif %}
+{% endblock content %}

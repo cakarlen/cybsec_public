@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- List the files to download -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <table id="files_Table" class="display" style="width: 100%">
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Download</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>File</th>
+                <th>Download</th>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <script type="text/javascript" src="static/js_stuff/downloads.js"></script>
+    <!-- for local testing only -->
+    <!-- <a href="/import/begin" class="button">Start DMCA Import</a> -->
+
+{% endblock content %}
